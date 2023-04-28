@@ -5,20 +5,26 @@ import { RegisterFormComponent } from './register-form.component';
 import { UsersService } from './../../../services/user.service';
 import { generateOneUser } from './../../../models/user.mock';
 import { asyncData, getText, mockObservable, query, queryById, setInputValue, setCheckboxValue, clickEvent, clickElement, asyncError } from 'src/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 
-describe('RegisterFormComponent', () => {
+fdescribe('RegisterFormComponent', () => {
   let component: RegisterFormComponent;
   let fixture: ComponentFixture<RegisterFormComponent>;
   let userService: jasmine.SpyObj<UsersService>;
+  let router: jasmine.SpyObj<Router>;
+
 
   beforeEach(async () => {
     const spy = jasmine.createSpyObj('UsersService', ['create', 'isAvailableByEmail']);
+    const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
     await TestBed.configureTestingModule({
       declarations: [ RegisterFormComponent ],
-      imports: [ ReactiveFormsModule ],
+      imports: [ ReactiveFormsModule, RouterTestingModule ],
       providers: [
         { provide:  UsersService, useValue: spy },
+        { provide:  Router, useValue: routerSpy },
       ]
     })
     .compileComponents();
@@ -27,6 +33,8 @@ describe('RegisterFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterFormComponent);
     userService = TestBed.inject(UsersService) as jasmine.SpyObj<UsersService>;
+    router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
+
     component = fixture.componentInstance;
     userService.isAvailableByEmail.and.returnValue(mockObservable({isAvailable: true}));
     fixture.detectChanges();
@@ -128,6 +136,7 @@ describe('RegisterFormComponent', () => {
     expect(component.status).toEqual('success');
     expect(component.form.valid).toBeTruthy();
     expect(userService.create).toHaveBeenCalled();
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/login');
   }));
 
   it('should send the form successfully and "loading" => "success"', fakeAsync(() => {

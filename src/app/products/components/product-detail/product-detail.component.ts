@@ -14,7 +14,7 @@ import { ProductsService } from '../../../services/product.service';
 export class ProductDetailComponent implements OnInit {
 
   product: Product | null = null;
-
+  status: 'init' | 'loading' | 'success'  | 'error' = 'init';
   constructor(
     private route: ActivatedRoute,
     private productsService: ProductsService,
@@ -34,12 +34,15 @@ export class ProductDetailComponent implements OnInit {
   }
 
   private getProductDetail(productId: string) {
+    this.status = 'loading';
     this.productsService.getOne(productId)
     .subscribe({
       next: (product) => {
+      this.status = 'success';
         this.product = product;
       },
       error: () => {
+      this.status = 'error';
         this.goToBack();
       }
     })
