@@ -100,4 +100,23 @@ fdescribe('ProductDetailComponent', () => {
     expect(component.status).toEqual('success');
 
   }));
+
+
+  it('should typeCustomer be "customer"', () => {
+    const productId = '2';
+    route.setParamMap({ id: productId });
+    route.setQueryParamMap({ type: 'customer' });
+
+
+    const productMock = {
+      ...generateOneProduct(),
+      id: productId,
+    };
+
+    productService.getOne.and.returnValue(mockObservable(productMock));
+    fixture.detectChanges();
+    console.log(component.typeCustomer)
+    expect(component.typeCustomer).toEqual('customer');
+
+  });
 });
