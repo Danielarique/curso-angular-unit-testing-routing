@@ -7,8 +7,9 @@ import { ProductsComponent } from './products.component';
 import { ProductComponent } from './../product/product.component';
 import { ValueService } from 'src/app/services/value.service';
 import { By } from '@angular/platform-browser';
+import { RouterLinkDirectiveStub } from '../../../../testing/router-link-directive-stub';
 
-xdescribe('ProductsComponent', () => {
+describe('ProductsComponent', () => {
   let component: ProductsComponent;
   let fixture: ComponentFixture<ProductsComponent>;
   let productService: jasmine.SpyObj<ProductsService>;
@@ -19,7 +20,7 @@ xdescribe('ProductsComponent', () => {
     const valueServiceSpy = jasmine.createSpyObj('ValueService', ['getPromiseValue']);
 
     await TestBed.configureTestingModule({
-      declarations: [ProductsComponent, ProductComponent],
+      declarations: [ProductsComponent, ProductComponent, RouterLinkDirectiveStub],
       providers: [
         { provide: ProductsService, useValue: spy },
         { provide: ValueService, useValue: valueServiceSpy },

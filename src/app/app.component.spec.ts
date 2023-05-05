@@ -2,7 +2,23 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { RouterLinkDirectiveStub, queryAllByDirective  } from 'src/testing';
-fdescribe('AppComponent', () => {
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-banner'
+})
+
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+class BannerComponentStub{}
+
+@Component({
+  selector: 'app-footer'
+})
+
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+class FooterComponentStub{}
+
+describe('AppComponent', () => {
 
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
@@ -13,7 +29,9 @@ fdescribe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        RouterLinkDirectiveStub
+        RouterLinkDirectiveStub,
+        BannerComponentStub,
+        FooterComponentStub
       ],
     }).compileComponents();
   });
